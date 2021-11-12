@@ -89,7 +89,7 @@ class RobotActionTrigger(models.Model):
         verbose_name = "触发器"
         verbose_name_plural = "触发器"
         # index_together = [["function_en",],]
-        # unique_together = (("nfvo_id", "link_id"),)
+        # unique_together = (("id", "link_id"),)
     pass
 
 
@@ -105,5 +105,240 @@ class RobotActionResponse(models.Model):
         verbose_name = "响应"
         verbose_name_plural = "响应"
         # index_together = [["function_en",],]
-        # unique_together = (("nfvo_id", "link_id"),)
+        # unique_together = (("id", "link_id"),)
+    pass
+
+
+class Task(models.Model):
+    """
+    任务 = 意图
+    """
+
+    pass
+
+
+class Block(models.Model):
+    """
+    单元
+    "block_id": 881524,
+    "bound_slot_id": 267725,
+    "fillanytime": false,
+    "max_interval": 3,
+    "mult_val": 0,
+    "name": "申请人信息111",
+    "order_id": 10,
+    "first_order": 0,
+    "position": {
+    "x": 390,
+    "y": 12,
+    "__typename": "dm_block_position_out"
+    },
+    "precheck": "",
+    "rsp_mode": 1,
+    "run_once": true,
+    "task_id": 201122,
+    "type_id": 2,
+    "uri": "{\"mock\":\"off\"}",
+    "bound_slot": {
+    "slot_id": 267725,
+    "robot_id": 36615,
+    "name": "是否确认",
+    "alias": "FHZsjjnL1It68F36ZrUIRHTEKoVcImCx",
+    "def_value": "",
+    "disposable": true,
+    "fill_slot_with_query": false,
+    "source_entities": [
+      {
+        "entity_id": 112719,
+        "entity_type": 1,
+        "entity_name": "udefine.BDtMoPtC.kyF420ek",
+        "entity_desc": "确认试用",
+        "entity_detail": "确认是否试用",
+        "__typename": "task_entity"
+      },
+      {
+        "entity_id": 112721,
+        "entity_type": 1,
+        "entity_name": "udefine.BDtMoPtC.M0frpIh8",
+        "entity_desc": "申请信息",
+        "entity_detail": "",
+        "__typename": "task_entity"
+      }
+    ],
+    "bound_blocks": [
+      {
+        "block_id": 881524,
+        "name": "申请人信息",
+        "__typename": "dm_block"
+      }
+    ],
+    "__typename": "dm_slot"
+    },
+    "block_relations": [
+    {
+      "rlat_id": 1157814,
+      "task_id": 201122,
+      "rlat_order": 0,
+      "task": {
+        "task_id": 201122,
+        "name": "吾来线索收集",
+        "__typename": "dm_task"
+      },
+      "from_block_id": 881524,
+      "from_block": {
+        "block_id": 881524,
+        "task_id": 201122,
+        "name": "申请人信息",
+        "__typename": "dm_block"
+      },
+      "to_block_id": 0,
+      "to_block": null,
+      "value": "*",
+      "app_id": "54086",
+      "condition": "{\"operator\":\"*\",\"value\":\"\"}",
+      "entity": null,
+      "__typename": "dm_block_relation"
+    },
+    {
+      "rlat_id": 1157815,
+      "task_id": 201122,
+      "rlat_order": 0,
+      "task": {
+        "task_id": 201122,
+        "name": "吾来线索收集",
+        "__typename": "dm_task"
+      },
+      "from_block_id": 881524,
+      "from_block": {
+        "block_id": 881524,
+        "task_id": 201122,
+        "name": "申请人信息",
+        "__typename": "dm_block"
+      },
+      "to_block_id": 881523,
+      "to_block": {
+        "block_id": 881523,
+        "task_id": 201122,
+        "name": "欢迎再次申请",
+        "__typename": "dm_block"
+      },
+      "value": "否",
+      "app_id": "54086",
+      "condition": "{\"operator\":\"N\",\"value\":\"否\"}",
+      "entity": null,
+      "__typename": "dm_block_relation"
+    },
+    {
+      "rlat_id": 1157816,
+      "task_id": 201122,
+      "rlat_order": 0,
+      "task": {
+        "task_id": 201122,
+        "name": "吾来线索收集",
+        "__typename": "dm_task"
+      },
+      "from_block_id": 881524,
+      "from_block": {
+        "block_id": 881524,
+        "task_id": 201122,
+        "name": "申请人信息",
+        "__typename": "dm_block"
+      },
+      "to_block_id": 881522,
+      "to_block": {
+        "block_id": 881522,
+        "task_id": 201122,
+        "name": "申请人姓名",
+        "__typename": "dm_block"
+      },
+      "value": "是",
+      "app_id": "54086",
+      "condition": "{\"operator\":\"N\",\"value\":\"是\"}",
+      "entity": null,
+      "__typename": "dm_block_relation"
+    }
+    ],
+    "block_responses": [
+        {
+          "resp_id": 489621,
+          "block_id": 881524,
+          "status_id": 2,
+          "response": "{\"Content\":\"嗨，你是想申请试用账号吗?\"}",
+          "type_id": 0,
+          "rsp_once": false,
+          "__typename": "dm_response"
+        }
+    ],
+    "block_deferred": {
+        "drsp_id": 710473,
+        "block_id": 881524,
+        "deferred_time": 0,
+        "response": "{\"Content\":\"\"}",
+        "__typename": "dm_deferred"
+    },
+    "block_shortcut": {
+        "sco_id": 710467,
+        "block_id": 881524,
+        "shortcut_options": "是$$否$$你好",
+        "__typename": "dm_shortcut"
+    }
+    """
+    class Meta:
+        db_table = 'action_response'  # 表名
+        verbose_name = "响应"
+        verbose_name_plural = "响应"
+        # index_together = [["function_en",],]
+        # unique_together = (("id", "link_id"),)
+
+    pass
+
+
+class BoundSlot(models.Model):
+    """
+    词槽
+    """
+    pass
+
+
+class BlockResponse(models.Model):
+    """
+    响应
+    """
+    pass
+
+
+class BlockRelation(models.Model):
+    """
+    单元跳转关系
+    """
+    pass
+
+
+class BlockDeferred(models.Model):
+    """
+    延期设置
+    """
+    pass
+
+
+class BlockShortcut(models.Model):
+    """
+    预置回复
+    """
+    pass
+
+
+class Position(models.Model):
+    """
+    位置信息
+    """
+    x = models.IntegerField(verbose_name='x坐标')
+    y = models.IntegerField(verbose_name='y坐标')
+    pass
+
+
+class ViewSize(models.Model):
+    """
+    视图设置
+    """
     pass
