@@ -1,1 +1,3 @@
 django
+graphene
+graphene-django
