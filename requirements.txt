@@ -1,3 +1,4 @@
 django
 graphene
 graphene-django
+django-filter

@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # for graphql
+    'graphene_django',
+    'django_filters',
+
+    # test
+    'ingredients',
+    'app_task',
 ]
 
 MIDDLEWARE = [
