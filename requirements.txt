@@ -1,4 +1,4 @@
 django
 graphene
-graphene-django
+graphene-django>=3.0.0b7
 django-filter

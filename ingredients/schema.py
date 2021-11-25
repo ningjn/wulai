@@ -1,8 +1,7 @@
-from graphene import Node
-import graphene
-from graphene_django.types import DjangoObjectType
-
 from ingredients.models import Category, Ingredient
+from graphene import Node
+from graphene_django.filter import DjangoFilterConnectionField
+from graphene_django.types import DjangoObjectType
 
 
 # Graphene will automatically map the Category model's fields onto the CategoryNode.
@@ -30,16 +29,8 @@ class IngredientNode(DjangoObjectType):
 
 
 class Query(object):
-    # category = Node.Field(CategoryNode)
-    # all_categories = CategoryNode
+    category = Node.Field(CategoryNode)
+    all_categories = DjangoFilterConnectionField(CategoryNode)
 
-    # ingredient = Node.Field(IngredientNode)
-    # all_ingredients = IngredientNode
-    all_ingredients = graphene.List(IngredientNode)
-    ingredient = graphene.Field(IngredientNode, key_id=graphene.Int())
-
-    def resolve_all_ingredients(self, info, **kwargs):
-        return Ingredient.objects.all()
-
-    def resolve_ingredient(self, info, key_id):
-        return Ingredient.objects.get(pk=key_id)
+    ingredient = Node.Field(IngredientNode)
+    all_ingredients = DjangoFilterConnectionField(IngredientNode)
