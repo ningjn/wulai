@@ -22,33 +22,34 @@ class App(models.Model):
     pass
 
 
-# # 场景 scene = robot
-# # 场景是介于任务对话和意图之间的层级。场景可以用来管理彼此联系的一系列“意图”。
-# class Robot(models.Model):
-#     robot_name = models.CharField(max_length=255, verbose_name='名称')
-#     robot_logo = models.CharField(max_length=255, verbose_name='图标')
-#     robot_detail = models.CharField(max_length=255, verbose_name='描述')
-#     robot_status = models.IntegerField(default=1, verbose_name='状态')
-#
-#     robot_ttl = models.IntegerField(verbose_name='闲置等待时长')
-#     odst_threshold = models.DecimalField(verbose_name='智能填槽阈值')
-#
-#     pos_status = models.IntegerField(default=1, verbose_name='自动添加预置回复')
-#     pos_num = models.IntegerField(default=3, verbose_name='推荐个数')
-#     pos_source = models.CharField(max_length=255, default='["popular","personal","entity"]', verbose_name='推荐源')
-#
-#     goback_action = models.IntegerField(default=1, verbose_name='是否可以回退')
-#     exit_action = models.IntegerField(default=1, verbose_name='是否主动退出')
-#     exit_rsp_mode = models.IntegerField(default=1, verbose_name='退出响应模式')
-#
-#     class Meta:
-#         db_table = 'bot_robot'  # 表名
-#         verbose_name = "场景"
-#         verbose_name_plural = "场景"
-#         # index_together = [["function_en",],]
-#         # unique_together = (("nfvo_id", "link_id"),)
-#     pass
-#
+# 场景 scene = robot
+# 场景是介于任务对话和意图之间的层级。场景可以用来管理彼此联系的一系列“意图”。
+class Robot(models.Model):
+    robot_name = models.CharField(max_length=255, verbose_name='名称')
+    robot_logo = models.CharField(max_length=255, verbose_name='图标')
+    robot_detail = models.CharField(max_length=255, verbose_name='描述')
+    robot_status = models.IntegerField(default=1, verbose_name='状态')
+
+    robot_ttl = models.IntegerField(verbose_name='闲置等待时长')
+    odst_threshold = models.DecimalField(verbose_name='智能填槽阈值', max_digits=10, decimal_places=2)
+
+    pos_status = models.IntegerField(default=1, verbose_name='自动添加预置回复')
+    pos_num = models.IntegerField(default=3, verbose_name='推荐个数')
+    pos_source = models.CharField(max_length=255, default='["popular","personal","entity"]', verbose_name='推荐源')
+
+    goback_action = models.IntegerField(default=1, verbose_name='是否可以回退')
+    exit_action = models.IntegerField(default=1, verbose_name='是否主动退出')
+    exit_rsp_mode = models.IntegerField(default=1, verbose_name='退出响应模式')
+    app = models.ForeignKey('App', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'bot_robot'  # 表名
+        verbose_name = "场景"
+        verbose_name_plural = "场景"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
+    pass
+
 #
 # class RobotActionTrigger(models.Model):
 #
