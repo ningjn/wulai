@@ -230,6 +230,8 @@ class BlockInput(graphene.InputObjectType):
     first_order = graphene.Int()  # 未知
     pre_check = graphene.String()  # 未知
     run_once = graphene.Boolean()  # 运行一次
+    disable_exit = graphene.Int()  # 允许退出
+    disable_goback = graphene.Int()  # 允许后退
     pass
 
 
@@ -263,6 +265,8 @@ class BlockMutation(relay.ClientIDMutation):
                 first_order=obj.get('first_order', 0),
                 pre_check=obj.get('pre_check', ''),
                 run_once=obj.get('run_once', False),
+                disable_exit=obj.get('disable_exit', 0),
+                disable_goback=obj.get('disable_goback', 0),
             )
         else:
             block_type, block_id = from_global_id(obj.get('id'))
@@ -284,7 +288,8 @@ class BlockMutation(relay.ClientIDMutation):
             new_obj.first_order = obj.get('first_order', 0)
             new_obj.pre_check = obj.get('pre_check', '')
             new_obj.run_once = obj.get('run_once', False)
-
+            new_obj.disable_exit=obj.get('disable_exit', 0)
+            new_obj.disable_goback=obj.get('disable_goback', 0)
             new_obj.save()
 
         return BlockMutation(result=new_obj)

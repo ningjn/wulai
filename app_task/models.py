@@ -145,6 +145,9 @@ class Block(models.Model):
     first_order = models.IntegerField(verbose_name='未知')
     pre_check = models.CharField(max_length=255, verbose_name='未知')
     run_once = models.BooleanField(verbose_name='运行一次')
+    disable_exit = models.IntegerField(default=0, verbose_name='允许退出')
+    disable_goback = models.IntegerField(default=0, verbose_name='允许后退')
+
 
     class Meta:
         db_table = 'bot_block'  # 表名
@@ -196,15 +199,19 @@ class Entity(models.Model):
 #     响应
 #     """
 #     pass
-#
-#
-# class BlockRelation(models.Model):
-#     """
-#     单元跳转关系
-#     """
-#     pass
-#
-#
+
+
+class BlockRelation(models.Model):
+    """
+    单元跳转关系
+    """
+    task = models.ForeignKey('Task', verbose_name='关联任务（意图）', on_delete=models.CASCADE)
+    entity_detail = models.CharField(max_length=255, verbose_name='entity_detail')
+    rlat_order = models.IntegerField(verbose_name='rlat_order')
+    from_block = 
+    pass
+
+
 # class BlockDeferred(models.Model):
 #     """
 #     延期设置
