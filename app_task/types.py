@@ -1,4 +1,5 @@
 import graphene
+from graphene_django import DjangoListField
 from graphene_django.types import DjangoObjectType
 from graphene import relay
 
@@ -55,6 +56,7 @@ class TaskType(DjangoObjectType):
     """
     pk = graphene.ID(source='pk')
     blocks = graphene.List(BlockType)
+    # blocks = DjangoListField(BlockType)
 
     class Meta:
         model = Task

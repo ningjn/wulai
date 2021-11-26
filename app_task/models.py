@@ -52,6 +52,7 @@ class Robot(models.Model):
         # unique_together = (("nfvo_id", "link_id"),)
     pass
 
+
 #
 # class RobotActionTrigger(models.Model):
 #
