@@ -149,6 +149,13 @@ class Block(models.Model):
     disable_goback = models.IntegerField(default=0, verbose_name='允许后退')
 
 
+    # 视图位置信息
+    position_x = models.IntegerField(default=0, verbose_name='x坐标')
+    position_y = models.IntegerField(default=0, verbose_name='y坐标')
+
+    # 单元跳转关系
+    block_relations = models.ManyToManyField('self', through='BlockRelation', symmetrical=False, verbose_name='单元跳转关系')
+
     class Meta:
         db_table = 'bot_block'  # 表名
         verbose_name = "单元"
@@ -194,56 +201,113 @@ class Entity(models.Model):
     pass
 
 
-# class BlockResponse(models.Model):
-#     """
-#     响应
-#     """
-#     pass
+class BlockResponse(models.Model):
+    """
+    单元响应处理
+    """
+    block = models.ForeignKey('Block', on_delete=models.CASCADE, verbose_name='单元')
+    response = models.CharField(default='', max_length=255, verbose_name='响应规则')
+    rsp_once = models.BooleanField(default=False, verbose_name='响应一次')
+
+    class Meta:
+        db_table = 'bot_block_response'  # 表名
+        verbose_name = "单元响应处理"
+        verbose_name_plural = "单元响应处理"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
+    pass
 
 
 class BlockRelation(models.Model):
     """
     单元跳转关系
     """
-    task = models.ForeignKey('Task', verbose_name='关联任务（意图）', on_delete=models.CASCADE)
-    entity_detail = models.CharField(max_length=255, verbose_name='entity_detail')
-    rlat_order = models.IntegerField(verbose_name='rlat_order')
-    from_block = 
+    from_block = models.ForeignKey('Block', related_name='from_block', on_delete=models.CASCADE, verbose_name='起点')
+    to_block = models.ForeignKey('Block', related_name='to_block', on_delete=models.CASCADE, verbose_name='终点')
+    condition = models.CharField(default='', max_length=255, verbose_name='条件')
+    value = models.CharField(default='', max_length=255, verbose_name='值')
+
+    class Meta:
+        db_table = 'bot_block_relation'  # 表名
+        verbose_name = "单元跳转关系"
+        verbose_name_plural = "单元跳转关系"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
     pass
 
 
-# class BlockDeferred(models.Model):
-#     """
-#     延期设置
-#     """
-#     pass
-#
-#
-# class BlockShortcut(models.Model):
-#     """
-#     预置回复
-#     """
-#     pass
-#
-#
-# class Position(models.Model):
-#     """
-#     位置信息
-#     """
-#     x = models.IntegerField(verbose_name='x坐标')
-#     y = models.IntegerField(verbose_name='y坐标')
-#     pass
-#
-#
-# class ViewSize(models.Model):
-#     """
-#     视图设置
-#     """
-#     width = models.IntegerField(verbose_name='宽度')
-#     height = models.IntegerField(verbose_name='高度')
-#     pass
-#
-#
-# class Trigger(models.Model):
-#     next_block = models.ForeignKey('Block')
-#     pass
+class BlockDeferred(models.Model):
+    """
+    延期设置
+    """
+    block = models.ForeignKey('Block', on_delete=models.CASCADE, verbose_name='单元')
+    deferred_time = models.IntegerField(verbose_name='次数')
+    response = models.CharField(default='', max_length=255, verbose_name='操作')
+
+    class Meta:
+        db_table = 'bot_block_deferred'  # 表名
+        verbose_name = "延期设置"
+        verbose_name_plural = "延期设置"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
+
+    pass
+
+
+class BlockShortcut(models.Model):
+    """
+    预置回复
+    """
+    block = models.ForeignKey('Block', on_delete=models.CASCADE, verbose_name='单元')
+    shortcut_options = models.CharField(default='', max_length=255, verbose_name='操作')
+
+    class Meta:
+        db_table = 'bot_block_shortcut'  # 表名
+        verbose_name = "预置回复"
+        verbose_name_plural = "预置回复"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
+    pass
+
+
+class Trigger(models.Model):
+    """
+    触发器
+    """
+    task = models.ForeignKey('Task', verbose_name='关联任务（意图）', on_delete=models.CASCADE)
+    next_block = models.ForeignKey('Block', blank=True, null=True, on_delete=models.SET_NULL, verbose_name='next_block')
+
+    # 视图位置信息
+    position_x = models.IntegerField(default=0, verbose_name='x坐标')
+    position_y = models.IntegerField(default=0, verbose_name='y坐标')
+
+    class Meta:
+        db_table = 'bot_trigger'  # 表名
+        verbose_name = "触发器"
+        verbose_name_plural = "触发器"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
+    pass
+
+
+class TriggerInfo(models.Model):
+    """
+    触发器信息
+    """
+    trigger = models.ForeignKey('Trigger', on_delete=models.CASCADE, verbose_name='归属block')
+
+    content = models.CharField(default='', max_length=255, verbose_name='内容')
+    trigger_type = models.IntegerField(default=4, verbose_name='类型')
+    # 4：equal，keyword
+    # 3：match，keyword
+    # 2：question
+    # 1：sentenceNotation
+
+    class Meta:
+        db_table = 'bot_trigger_info'  # 表名
+        verbose_name = "触发器信息"
+        verbose_name_plural = "触发器信息"
+        # index_together = [["function_en",],]
+        # unique_together = (("nfvo_id", "link_id"),)
+    pass
+
