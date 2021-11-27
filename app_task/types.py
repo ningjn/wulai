@@ -3,7 +3,7 @@ from graphene_django import DjangoListField
 from graphene_django.types import DjangoObjectType
 from graphene import relay
 
-from app_task.models import App, Robot, Task, Block, Slot, Entity
+from app_task.models import App, Robot, Task, Block, Slot, Entity, BlockRelation, BlockResponse, BlockDeferred, BlockShortcut, Trigger, TriggerInfo
 
 
 class AppType(DjangoObjectType):
@@ -52,7 +52,7 @@ class BlockType(DjangoObjectType):
 
 class TaskType(DjangoObjectType):
     """
-    意图
+    任务/意图
     """
     pk = graphene.ID(source='pk')
     blocks = graphene.List(BlockType)
@@ -94,4 +94,82 @@ class EntityType(DjangoObjectType):
         filter_fields = {
             'entity_name': ['exact',]
         }
+    pass
+
+
+class BlockResponseType(DjangoObjectType):
+    """
+    单元响应处理
+    """
+    pk = graphene.ID(source='pk')
+
+    class Meta:
+        model = BlockResponse
+        interfaces = [relay.Node,]
+        filter_fields = {}
+    pass
+
+
+class BlockRelationType(DjangoObjectType):
+    """
+    单元跳转关系
+    """
+    pk = graphene.ID(source='pk')
+
+    class Meta:
+        model = BlockRelation
+        interfaces = [relay.Node,]
+        filter_fields = {}
+    pass
+
+
+class BlockDeferredType(DjangoObjectType):
+    """
+    延期设置
+    """
+    pk = graphene.ID(source='pk')
+
+    class Meta:
+        model = BlockDeferred
+        interfaces = [relay.Node,]
+        filter_fields = {}
+    pass
+
+
+class BlockShortcutType(DjangoObjectType):
+    """
+    预置回复
+    """
+    pk = graphene.ID(source='pk')
+
+    class Meta:
+        model = BlockShortcut
+        interfaces = [relay.Node,]
+        filter_fields = {}
+    pass
+
+
+class TriggerType(DjangoObjectType):
+    """
+    触发器
+    """
+    pk = graphene.ID(source='pk')
+
+    class Meta:
+        model = Trigger
+        interfaces = [relay.Node,]
+        filter_fields = {}
+    pass
+
+
+class TriggerInfoType(DjangoObjectType):
+    """
+    触发器信息
+    """
+    pk = graphene.ID(source='pk')
+
+    class Meta:
+        model = TriggerInfo
+        interfaces = [relay.Node,]
+        filter_fields = {}
     pass
