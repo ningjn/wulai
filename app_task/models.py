@@ -53,38 +53,6 @@ class Robot(models.Model):
     pass
 
 
-#
-# class RobotActionTrigger(models.Model):
-#
-#     trigger_action = models.IntegerField(verbose_name='trigger_action')
-#     content = models.CharField(max_length=255, verbose_name='描述')
-#     robot = models.ForeignKey('Robot', on_delete=models.CASCADE)
-#
-#     class Meta:
-#         db_table = 'bot_action_trigger'  # 表名
-#         verbose_name = "触发器"
-#         verbose_name_plural = "触发器"
-#         # index_together = [["function_en",],]
-#         # unique_together = (("id", "link_id"),)
-#     pass
-#
-#
-# class RobotActionResponse(models.Model):
-#
-#     action_type = models.IntegerField(verbose_name='action_type')
-#     type_id = models.IntegerField(verbose_name='type_id')
-#     response = models.CharField(max_length=255, verbose_name='描述')
-#     robot = models.ForeignKey('Robot', on_delete=models.CASCADE)
-#
-#     class Meta:
-#         db_table = 'bot_action_response'  # 表名
-#         verbose_name = "响应"
-#         verbose_name_plural = "响应"
-#         # index_together = [["function_en",],]
-#         # unique_together = (("id", "link_id"),)
-#     pass
-
-
 class Task(models.Model):
     """
     任务 = 意图
