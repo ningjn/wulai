@@ -3,7 +3,7 @@ from django.utils import timezone
 from graphene import relay
 from graphql_relay import from_global_id
 
-from app_task.models import App, Robot, Task, Block, Slot, Entity
+from app_task.models import App, BlockDeferred, BlockRelation, BlockResponse, BlockShortcut, Robot, Task, Block, Slot, Entity, Trigger, TriggerInfo
 from app_task.types import AppType, BlockDeferredType, BlockRelationType, BlockResponseType, BlockShortcutType, RobotType, TaskType, BlockType, SlotType, EntityType, TriggerInfoType, TriggerType
 
 
@@ -232,6 +232,10 @@ class BlockInput(graphene.InputObjectType):
     run_once = graphene.Boolean()  # 运行一次
     disable_exit = graphene.Int()  # 允许退出
     disable_goback = graphene.Int()  # 允许后退
+
+    # 位置
+    position_x = graphene.Int()  # position_x
+    position_y = graphene.Int()  # position_y
     pass
 
 
@@ -267,6 +271,8 @@ class BlockMutation(relay.ClientIDMutation):
                 run_once=obj.get('run_once', False),
                 disable_exit=obj.get('disable_exit', 0),
                 disable_goback=obj.get('disable_goback', 0),
+                position_x=obj.get('position_x', 0),
+                position_y=obj.get('position_y', 0),
             )
         else:
             block_type, block_id = from_global_id(obj.get('id'))
@@ -290,6 +296,8 @@ class BlockMutation(relay.ClientIDMutation):
             new_obj.run_once = obj.get('run_once', False)
             new_obj.disable_exit=obj.get('disable_exit', 0)
             new_obj.disable_goback=obj.get('disable_goback', 0)
+            new_obj.position_x=obj.get('position_x', 0)
+            new_obj.position_y=obj.get('position_y', 0)
             new_obj.save()
 
         return BlockMutation(result=new_obj)
@@ -410,6 +418,10 @@ class BlockResponseInput(graphene.InputObjectType):
     单元响应处理输入
     """
     id = graphene.ID()
+    block_id = graphene.ID()  # 单元id
+
+    response = graphene.String()  # 响应规则
+    rsp_once = graphene.Boolean()  # 响应一次
     pass
 
 
@@ -425,26 +437,26 @@ class BlockResponseMutation(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
+        block_type, block_id = from_global_id(obj.get('block_id'))
+
         if obj.get('id') is None:
-            new_obj = Entity.objects.create(
-                entity_name=obj.get('entity_name', ''),
-                entity_desc=obj.get('entity_desc', ''),
-                entity_detail=obj.get('entity_detail', ''),
-                entity_type=obj.get('entity_type', 0)
+            new_obj = BlockResponse.objects.create(
+                block_id=block_id,
+                response=obj.get('response', ''),
+                rsp_once=obj.get('rsp_once', False),
             )
         else:
-            entity_type, entity_id = from_global_id(obj.get('id'))
+            response_type, response_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj, flag = BlockResponse.objects.get(pk=response_id)
 
-            new_obj.entity_name = obj.get('entity_name', ''),
-            new_obj.entity_desc = obj.get('entity_desc', ''),
-            new_obj.entity_detail = obj.get('entity_detail', ''),
-            new_obj.entity_type = obj.get('entity_type', 0)
+            new_obj.block_id=block_id
+            new_obj.response=obj.get('response', '')
+            new_obj.rsp_once=obj.get('rsp_once', False)
 
             new_obj.save()
 
-        return EntityMutation(result=new_obj)
+        return BlockResponseMutation(result=new_obj)
 
     pass
 
@@ -454,6 +466,11 @@ class BlockRelationInput(graphene.InputObjectType):
     单元跳转关系输入
     """
     id = graphene.ID()
+    from_block_id = graphene.ID()  # from单元id
+    to_block_id = graphene.ID()  # to单元id
+
+    condition = graphene.String()  # 条件
+    value = graphene.String()  # 值
     pass
 
 
@@ -469,26 +486,29 @@ class BlockRelationMutation(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
+        from_block_type, from_block_id = from_global_id(obj.get('block_id'))
+        to_block_type, to_block_id = from_global_id(obj.get('to_block_id'))
+
         if obj.get('id') is None:
-            new_obj = Entity.objects.create(
-                entity_name=obj.get('entity_name', ''),
-                entity_desc=obj.get('entity_desc', ''),
-                entity_detail=obj.get('entity_detail', ''),
-                entity_type=obj.get('entity_type', 0)
+            new_obj = BlockRelation.objects.create(
+                from_block_id=from_block_id,
+                to_block_id=to_block_id,
+                condition=obj.get('condition', ''),
+                value=obj.get('value', ''),
             )
         else:
-            entity_type, entity_id = from_global_id(obj.get('id'))
+            block_relation_type, block_relation_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj, flag = BlockRelation.objects.get(pk=block_relation_id)
 
-            new_obj.entity_name = obj.get('entity_name', ''),
-            new_obj.entity_desc = obj.get('entity_desc', ''),
-            new_obj.entity_detail = obj.get('entity_detail', ''),
-            new_obj.entity_type = obj.get('entity_type', 0)
+            new_obj.from_block_id=from_block_id
+            new_obj.to_block_id=to_block_id
+            new_obj.condition=obj.get('condition', '')
+            new_obj.value=obj.get('value', '')
 
             new_obj.save()
 
-        return EntityMutation(result=new_obj)
+        return BlockRelationMutation(result=new_obj)
 
     pass
 
@@ -498,6 +518,10 @@ class BlockDeferredInput(graphene.InputObjectType):
     延期设置输入
     """
     id = graphene.ID()
+    block_id = graphene.ID()  # 单元id
+
+    response = graphene.String()  # 操作
+    deferred_time = graphene.Int()  # 次数
     pass
 
 
@@ -513,26 +537,25 @@ class BlockDeferredMutation(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
+        block_type, block_id = from_global_id(obj.get('block_id'))
         if obj.get('id') is None:
-            new_obj = Entity.objects.create(
-                entity_name=obj.get('entity_name', ''),
-                entity_desc=obj.get('entity_desc', ''),
-                entity_detail=obj.get('entity_detail', ''),
-                entity_type=obj.get('entity_type', 0)
+            new_obj = BlockDeferred.objects.create(
+                block_id=block_id,
+                response=obj.get('response', ''),
+                deferred_time=obj.get('deferred_time', 0),
             )
         else:
-            entity_type, entity_id = from_global_id(obj.get('id'))
+            block_deferred_type, block_deferred_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj, flag = BlockDeferred.objects.get(pk=block_deferred_id)
 
-            new_obj.entity_name = obj.get('entity_name', ''),
-            new_obj.entity_desc = obj.get('entity_desc', ''),
-            new_obj.entity_detail = obj.get('entity_detail', ''),
-            new_obj.entity_type = obj.get('entity_type', 0)
+            new_obj.block_id=block_id
+            new_obj.response=obj.get('response', '')
+            new_obj.deferred_time=obj.get('deferred_time', 0)
 
             new_obj.save()
 
-        return EntityMutation(result=new_obj)
+        return BlockDeferredMutation(result=new_obj)
 
     pass
 
@@ -542,6 +565,9 @@ class BlockShortcutInput(graphene.InputObjectType):
     预置回复输入
     """
     id = graphene.ID()
+    block_id = graphene.ID()  # 单元id
+
+    shortcut_options = graphene.String()  # 操作
     pass
 
 
@@ -557,26 +583,23 @@ class BlockShortcutMutation(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
+        block_type, block_id = from_global_id(obj.get('block_id'))
         if obj.get('id') is None:
-            new_obj = Entity.objects.create(
-                entity_name=obj.get('entity_name', ''),
-                entity_desc=obj.get('entity_desc', ''),
-                entity_detail=obj.get('entity_detail', ''),
-                entity_type=obj.get('entity_type', 0)
+            new_obj = BlockShortcut.objects.create(
+                block_id=block_id,
+                shortcut_options=obj.get('shortcut_options', ''),
             )
         else:
-            entity_type, entity_id = from_global_id(obj.get('id'))
+            block_shortcut_type, block_shortcut_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj, flag = BlockShortcut.objects.get(pk=block_shortcut_id)
 
-            new_obj.entity_name = obj.get('entity_name', ''),
-            new_obj.entity_desc = obj.get('entity_desc', ''),
-            new_obj.entity_detail = obj.get('entity_detail', ''),
-            new_obj.entity_type = obj.get('entity_type', 0)
+            new_obj.block_id=block_id
+            new_obj.shortcut_options=obj.get('shortcut_options', '')
 
             new_obj.save()
 
-        return EntityMutation(result=new_obj)
+        return BlockShortcutMutation(result=new_obj)
 
     pass
 
@@ -586,6 +609,12 @@ class TriggerInput(graphene.InputObjectType):
     触发器输入
     """
     id = graphene.ID()
+    task_id = graphene.ID()  # 关联任务（意图）
+    next_block_id = graphene.ID()  # 单元
+
+    # 位置
+    position_x = graphene.Int()  # position_x
+    position_y = graphene.Int()  # position_y
     pass
 
 
@@ -601,26 +630,29 @@ class TriggerMutation(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
+        task_type, task_id = from_global_id(obj.get('task_id'))
+        next_block_type, next_block_id = from_global_id(obj.get('next_block_id'))
+
         if obj.get('id') is None:
-            new_obj = Entity.objects.create(
-                entity_name=obj.get('entity_name', ''),
-                entity_desc=obj.get('entity_desc', ''),
-                entity_detail=obj.get('entity_detail', ''),
-                entity_type=obj.get('entity_type', 0)
+            new_obj = Trigger.objects.create(
+                task_id=task_id,
+                next_block_id=next_block_id,
+                position_x=obj.get('position_x', 0),
+                position_y=obj.get('position_y', 0),
             )
         else:
-            entity_type, entity_id = from_global_id(obj.get('id'))
+            trigger_type, trigger_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj, flag = Trigger.objects.get(pk=trigger_id)
 
-            new_obj.entity_name = obj.get('entity_name', ''),
-            new_obj.entity_desc = obj.get('entity_desc', ''),
-            new_obj.entity_detail = obj.get('entity_detail', ''),
-            new_obj.entity_type = obj.get('entity_type', 0)
+            new_obj.task_id=task_id
+            new_obj.next_block_id=next_block_id
+            new_obj.position_x=obj.get('position_x', 0)
+            new_obj.position_y=obj.get('position_y', 0)
 
             new_obj.save()
 
-        return EntityMutation(result=new_obj)
+        return TriggerMutation(result=new_obj)
 
     pass
 
@@ -630,6 +662,10 @@ class TriggerInfoInput(graphene.InputObjectType):
     触发器信息输入
     """
     id = graphene.ID()
+    trigger_id = graphene.ID()
+
+    content = graphene.String()  # 内容
+    trigger_type = graphene.Int()  # 类型
     pass
 
 
@@ -645,25 +681,25 @@ class TriggerInfoMutation(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
+        trigger_type, trigger_id = from_global_id(obj.get('block_id'))
+
         if obj.get('id') is None:
-            new_obj = Entity.objects.create(
-                entity_name=obj.get('entity_name', ''),
-                entity_desc=obj.get('entity_desc', ''),
-                entity_detail=obj.get('entity_detail', ''),
-                entity_type=obj.get('entity_type', 0)
+            new_obj = TriggerInfo.objects.create(
+                trigger_id=trigger_id,
+                content=obj.get('content', ''),
+                trigger_type=obj.get('trigger_type', 0),
             )
         else:
-            entity_type, entity_id = from_global_id(obj.get('id'))
+            trigger_info_type, trigger_info_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj, flag = TriggerInfo.objects.get(pk=trigger_info_id)
 
-            new_obj.entity_name = obj.get('entity_name', ''),
-            new_obj.entity_desc = obj.get('entity_desc', ''),
-            new_obj.entity_detail = obj.get('entity_detail', ''),
-            new_obj.entity_type = obj.get('entity_type', 0)
+            new_obj.trigger_id=trigger_id
+            new_obj.content=obj.get('content', '')
+            new_obj.trigger_type=obj.get('trigger_type', 0)
 
             new_obj.save()
 
-        return EntityMutation(result=new_obj)
+        return TriggerInfoMutation(result=new_obj)
 
     pass
