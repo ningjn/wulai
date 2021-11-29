@@ -55,8 +55,7 @@ class TaskType(DjangoObjectType):
     任务/意图
     """
     pk = graphene.ID(source='pk')
-    blocks = graphene.List(BlockType)
-    # blocks = DjangoListField(BlockType)
+    # blocks = graphene.List(BlockType)
 
     class Meta:
         model = Task

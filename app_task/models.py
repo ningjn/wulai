@@ -116,7 +116,6 @@ class Block(models.Model):
     disable_exit = models.IntegerField(default=0, verbose_name='允许退出')
     disable_goback = models.IntegerField(default=0, verbose_name='允许后退')
 
-
     # 视图位置信息
     position_x = models.IntegerField(default=0, verbose_name='x坐标')
     position_y = models.IntegerField(default=0, verbose_name='y坐标')
