@@ -57,7 +57,7 @@ class AppUpsertMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         if obj.get('id') is None:
-            new_or_find_obj = App.objects.create(
+            get_or_create_obj = App.objects.create(
                 app_name=obj.get('app_name', ''),
                 app_logo=obj.get('app_logo', ''),
                 app_remark=obj.get('app_remark', ''),
@@ -66,16 +66,16 @@ class AppUpsertMutation(relay.ClientIDMutation):
             )
         else:
             app_type, app_id = from_global_id(obj.get('id'))
-            new_or_find_obj = App.objects.get(pk=app_id)
-            new_or_find_obj.app_name = obj.get('app_name', '')
-            new_or_find_obj.app_logo = obj.get('app_logo', '')
-            new_or_find_obj.app_remark = obj.get('app_remark', '')
-            new_or_find_obj.db_insert_time = timezone.now()
-            new_or_find_obj.app_hash = obj.get('app_hash', '')
-            new_or_find_obj.app_key = obj.get('app_key', '')
-            new_or_find_obj.save()
+            get_or_create_obj = App.objects.get(pk=app_id)
+            get_or_create_obj.app_name = obj.get('app_name', '')
+            get_or_create_obj.app_logo = obj.get('app_logo', '')
+            get_or_create_obj.app_remark = obj.get('app_remark', '')
+            get_or_create_obj.db_insert_time = timezone.now()
+            get_or_create_obj.app_hash = obj.get('app_hash', '')
+            get_or_create_obj.app_key = obj.get('app_key', '')
+            get_or_create_obj.save()
 
-        return AppUpsertMutation(result=new_or_find_obj)
+        return AppUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -93,10 +93,10 @@ class AppDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return AppDeleteMutation(result=new_or_find_obj)
+        return AppDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -140,7 +140,7 @@ class RobotUpsertMutation(relay.ClientIDMutation):
         if obj.get('id') is None:
             app_type, app_id = from_global_id(obj.get('app_id'))
 
-            new_or_find_obj = Robot.objects.create(
+            get_or_create_obj = Robot.objects.create(
                 robot_name=obj.get('robot_name', ''),
                 robot_logo=obj.get('robot_logo', ''),
                 robot_detail=obj.get('robot_detail', ''),
@@ -163,27 +163,27 @@ class RobotUpsertMutation(relay.ClientIDMutation):
             robot_type, robot_id = from_global_id(obj.get('id'))
             app_type, app_id = from_global_id(obj.get('app_id'))
 
-            new_or_find_obj = Robot.objects.get(pk=robot_id)
-            new_or_find_obj.robot_name = obj.get('robot_name', '')
-            new_or_find_obj.robot_logo = obj.get('robot_logo', '')
-            new_or_find_obj.robot_detail = obj.get('robot_detail', '')
-            new_or_find_obj.robot_status = obj.get('robot_status', 0)
+            get_or_create_obj = Robot.objects.get(pk=robot_id)
+            get_or_create_obj.robot_name = obj.get('robot_name', '')
+            get_or_create_obj.robot_logo = obj.get('robot_logo', '')
+            get_or_create_obj.robot_detail = obj.get('robot_detail', '')
+            get_or_create_obj.robot_status = obj.get('robot_status', 0)
 
-            new_or_find_obj.robot_ttl = obj.get('robot_ttl', 0)
-            new_or_find_obj.odst_threshold = obj.get('odst_threshold', 0)
+            get_or_create_obj.robot_ttl = obj.get('robot_ttl', 0)
+            get_or_create_obj.odst_threshold = obj.get('odst_threshold', 0)
 
-            new_or_find_obj.pos_status = obj.get('pos_status', 0)
-            new_or_find_obj.pos_num = obj.get('pos_num', 0)
-            new_or_find_obj.pos_source = obj.get('pos_source', '')
+            get_or_create_obj.pos_status = obj.get('pos_status', 0)
+            get_or_create_obj.pos_num = obj.get('pos_num', 0)
+            get_or_create_obj.pos_source = obj.get('pos_source', '')
 
-            new_or_find_obj.goback_action = obj.get('goback_action', 0)
-            new_or_find_obj.exit_action = obj.get('exit_action', 0)
-            new_or_find_obj.exit_rsp_mode = obj.get('exit_rsp_mode', 0)
+            get_or_create_obj.goback_action = obj.get('goback_action', 0)
+            get_or_create_obj.exit_action = obj.get('exit_action', 0)
+            get_or_create_obj.exit_rsp_mode = obj.get('exit_rsp_mode', 0)
 
-            new_or_find_obj.app_id = app_id
-            new_or_find_obj.save()
+            get_or_create_obj.app_id = app_id
+            get_or_create_obj.save()
 
-        return RobotUpsertMutation(result=new_or_find_obj)
+        return RobotUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -201,10 +201,10 @@ class RobotDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return RobotDeleteMutation(result=new_or_find_obj)
+        return RobotDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -242,7 +242,7 @@ class TaskUpsertMutation(relay.ClientIDMutation):
         if obj.get('id') is None:
             robot_type, robot_id = from_global_id(obj.get('robot_id'))
 
-            new_or_find_obj = Task.objects.create(
+            get_or_create_obj = Task.objects.create(
                 robot_id=robot_id,
                 version=obj.get('version', 0),
                 name=obj.get('name', ''),
@@ -256,19 +256,19 @@ class TaskUpsertMutation(relay.ClientIDMutation):
             task_type, task_id = from_global_id(obj.get('id'))
             robot_type, robot_id = from_global_id(obj.get('robot_id'))
 
-            new_or_find_obj = Task.objects.get(pk=task_id)
-            new_or_find_obj.robot_id = robot_id
-            new_or_find_obj.version = obj.get('version', 0)
-            new_or_find_obj.name = obj.get('name', '')
-            new_or_find_obj.task_status = obj.get('task_status', 0)
-            new_or_find_obj.default_end_block_mult_val = obj.get('default_end_block_mult_val', 0)
-            new_or_find_obj.trigger_faq = obj.get('trigger_faq', 0)
-            new_or_find_obj.ttl = obj.get('ttl', 0)
-            new_or_find_obj.threshold = obj.get('threshold', 0)
+            get_or_create_obj = Task.objects.get(pk=task_id)
+            get_or_create_obj.robot_id = robot_id
+            get_or_create_obj.version = obj.get('version', 0)
+            get_or_create_obj.name = obj.get('name', '')
+            get_or_create_obj.task_status = obj.get('task_status', 0)
+            get_or_create_obj.default_end_block_mult_val = obj.get('default_end_block_mult_val', 0)
+            get_or_create_obj.trigger_faq = obj.get('trigger_faq', 0)
+            get_or_create_obj.ttl = obj.get('ttl', 0)
+            get_or_create_obj.threshold = obj.get('threshold', 0)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return TaskUpsertMutation(result=new_or_find_obj)
+        return TaskUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -286,10 +286,10 @@ class TaskDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return TaskDeleteMutation(result=new_or_find_obj)
+        return TaskDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -339,7 +339,7 @@ class BlockUpsertMutation(relay.ClientIDMutation):
             bound_slot_type, bound_slot_id = from_global_id(obj.get('bound_slot_id'))
             task_type, task_id = from_global_id(obj.get('task_id'))
 
-            new_or_find_obj = Block.objects.create(
+            get_or_create_obj = Block.objects.create(
                 bound_slot_id=bound_slot_id,
                 task_id=task_id,
                 name=obj.get('name', ''),
@@ -363,28 +363,28 @@ class BlockUpsertMutation(relay.ClientIDMutation):
             bound_slot_type, bound_slot_id = from_global_id(obj.get('bound_slot_id'))
             task_type, task_id = from_global_id(obj.get('task_id'))
 
-            new_or_find_obj = Block.objects.get(pk=block_id)
+            get_or_create_obj = Block.objects.get(pk=block_id)
 
-            new_or_find_obj.bound_slot_id = bound_slot_id
-            new_or_find_obj.task_id = task_id
-            new_or_find_obj.name = obj.get('name', '')
-            new_or_find_obj.type_id = obj.get('type_id', 0)
-            new_or_find_obj.uri = obj.get('uri', '')
-            new_or_find_obj.max_interval = obj.get('max_interval', 0)
-            new_or_find_obj.mult_val = obj.get('mult_val', 0)
-            new_or_find_obj.fill_any_time = obj.get('fill_any_time', False)
-            new_or_find_obj.order_id = obj.get('order_id', 0)
-            new_or_find_obj.rsp_mode = obj.get('rsp_mode', 0)
-            new_or_find_obj.first_order = obj.get('first_order', 0)
-            new_or_find_obj.pre_check = obj.get('pre_check', '')
-            new_or_find_obj.run_once = obj.get('run_once', False)
-            new_or_find_obj.disable_exit = obj.get('disable_exit', 0)
-            new_or_find_obj.disable_goback = obj.get('disable_goback', 0)
-            new_or_find_obj.position_x = obj.get('position_x', 0)
-            new_or_find_obj.position_y = obj.get('position_y', 0)
-            new_or_find_obj.save()
+            get_or_create_obj.bound_slot_id = bound_slot_id
+            get_or_create_obj.task_id = task_id
+            get_or_create_obj.name = obj.get('name', '')
+            get_or_create_obj.type_id = obj.get('type_id', 0)
+            get_or_create_obj.uri = obj.get('uri', '')
+            get_or_create_obj.max_interval = obj.get('max_interval', 0)
+            get_or_create_obj.mult_val = obj.get('mult_val', 0)
+            get_or_create_obj.fill_any_time = obj.get('fill_any_time', False)
+            get_or_create_obj.order_id = obj.get('order_id', 0)
+            get_or_create_obj.rsp_mode = obj.get('rsp_mode', 0)
+            get_or_create_obj.first_order = obj.get('first_order', 0)
+            get_or_create_obj.pre_check = obj.get('pre_check', '')
+            get_or_create_obj.run_once = obj.get('run_once', False)
+            get_or_create_obj.disable_exit = obj.get('disable_exit', 0)
+            get_or_create_obj.disable_goback = obj.get('disable_goback', 0)
+            get_or_create_obj.position_x = obj.get('position_x', 0)
+            get_or_create_obj.position_y = obj.get('position_y', 0)
+            get_or_create_obj.save()
 
-        return BlockUpsertMutation(result=new_or_find_obj)
+        return BlockUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -402,10 +402,10 @@ class BlockDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return BlockDeleteMutation(result=new_or_find_obj)
+        return BlockDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -441,7 +441,7 @@ class SlotUpsertMutation(relay.ClientIDMutation):
         if obj.get('id') is None:
             robot_type, robot_id = from_global_id(obj.get('robot_id'))
 
-            new_or_find_obj = Slot.objects.create(
+            get_or_create_obj = Slot.objects.create(
                 robot_id=robot_id,
                 name=obj.get('name', ''),
                 alias=obj.get('alias', ''),
@@ -452,17 +452,17 @@ class SlotUpsertMutation(relay.ClientIDMutation):
             slot_type, slot_id = from_global_id(obj.get('id'))
             robot_type, robot_id = from_global_id(obj.get('robot_id'))
 
-            new_or_find_obj = Slot.objects.get(pk=slot_id)
+            get_or_create_obj = Slot.objects.get(pk=slot_id)
 
-            new_or_find_obj.robot_id = robot_id
-            new_or_find_obj.name = obj.get('name', '')
-            new_or_find_obj.alias = obj.get('alias', '')
-            new_or_find_obj.disposable = obj.get('disposable', False)
-            new_or_find_obj.fill_slot_with_query = obj.get('fill_slot_with_query', False)
+            get_or_create_obj.robot_id = robot_id
+            get_or_create_obj.name = obj.get('name', '')
+            get_or_create_obj.alias = obj.get('alias', '')
+            get_or_create_obj.disposable = obj.get('disposable', False)
+            get_or_create_obj.fill_slot_with_query = obj.get('fill_slot_with_query', False)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return SlotUpsertMutation(result=new_or_find_obj)
+        return SlotUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -480,10 +480,10 @@ class SlotDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return SlotDeleteMutation(result=new_or_find_obj)
+        return SlotDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -514,7 +514,7 @@ class EntityUpsertMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         if obj.get('id') is None:
-            new_or_find_obj = Entity.objects.create(
+            get_or_create_obj = Entity.objects.create(
                 entity_name=obj.get('entity_name', ''),
                 entity_desc=obj.get('entity_desc', ''),
                 entity_detail=obj.get('entity_detail', ''),
@@ -523,16 +523,16 @@ class EntityUpsertMutation(relay.ClientIDMutation):
         else:
             entity_type, entity_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = Entity.objects.get(pk=entity_id)
+            get_or_create_obj = Entity.objects.get(pk=entity_id)
 
-            new_or_find_obj.entity_name = obj.get('entity_name', ''),
-            new_or_find_obj.entity_desc = obj.get('entity_desc', ''),
-            new_or_find_obj.entity_detail = obj.get('entity_detail', ''),
-            new_or_find_obj.entity_type = obj.get('entity_type', 0)
+            get_or_create_obj.entity_name = obj.get('entity_name', ''),
+            get_or_create_obj.entity_desc = obj.get('entity_desc', ''),
+            get_or_create_obj.entity_detail = obj.get('entity_detail', ''),
+            get_or_create_obj.entity_type = obj.get('entity_type', 0)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return EntityUpsertMutation(result=new_or_find_obj)
+        return EntityUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -550,10 +550,10 @@ class EntityDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return EntityDeleteMutation(result=new_or_find_obj)
+        return EntityDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -584,7 +584,7 @@ class BlockResponseUpsertMutation(relay.ClientIDMutation):
         block_type, block_id = from_global_id(obj.get('block_id'))
 
         if obj.get('id') is None:
-            new_or_find_obj = BlockResponse.objects.create(
+            get_or_create_obj = BlockResponse.objects.create(
                 block_id=block_id,
                 response=obj.get('response', ''),
                 rsp_once=obj.get('rsp_once', False),
@@ -592,15 +592,15 @@ class BlockResponseUpsertMutation(relay.ClientIDMutation):
         else:
             response_type, response_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = BlockResponse.objects.get(pk=response_id)
+            get_or_create_obj = BlockResponse.objects.get(pk=response_id)
 
-            new_or_find_obj.block_id = block_id
-            new_or_find_obj.response = obj.get('response', '')
-            new_or_find_obj.rsp_once = obj.get('rsp_once', False)
+            get_or_create_obj.block_id = block_id
+            get_or_create_obj.response = obj.get('response', '')
+            get_or_create_obj.rsp_once = obj.get('rsp_once', False)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return BlockResponseUpsertMutation(result=new_or_find_obj)
+        return BlockResponseUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -618,10 +618,10 @@ class BlockResponseDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return BlockResponseDeleteMutation(result=new_or_find_obj)
+        return BlockResponseDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -654,7 +654,7 @@ class BlockRelationUpsertMutation(relay.ClientIDMutation):
         to_block_type, to_block_id = from_global_id(obj.get('to_block_id'))
 
         if obj.get('id') is None:
-            new_or_find_obj = BlockRelation.objects.create(
+            get_or_create_obj = BlockRelation.objects.create(
                 from_block_id=from_block_id,
                 to_block_id=to_block_id,
                 condition=obj.get('condition', ''),
@@ -663,16 +663,16 @@ class BlockRelationUpsertMutation(relay.ClientIDMutation):
         else:
             block_relation_type, block_relation_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = BlockRelation.objects.get(pk=block_relation_id)
+            get_or_create_obj = BlockRelation.objects.get(pk=block_relation_id)
 
-            new_or_find_obj.from_block_id = from_block_id
-            new_or_find_obj.to_block_id = to_block_id
-            new_or_find_obj.condition = obj.get('condition', '')
-            new_or_find_obj.value = obj.get('value', '')
+            get_or_create_obj.from_block_id = from_block_id
+            get_or_create_obj.to_block_id = to_block_id
+            get_or_create_obj.condition = obj.get('condition', '')
+            get_or_create_obj.value = obj.get('value', '')
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return BlockRelationUpsertMutation(result=new_or_find_obj)
+        return BlockRelationUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -690,10 +690,10 @@ class BlockRelationDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return BlockRelationDeleteMutation(result=new_or_find_obj)
+        return BlockRelationDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -723,7 +723,7 @@ class BlockDeferredUpsertMutation(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, obj):
         block_type, block_id = from_global_id(obj.get('block_id'))
         if obj.get('id') is None:
-            new_or_find_obj = BlockDeferred.objects.create(
+            get_or_create_obj = BlockDeferred.objects.create(
                 block_id=block_id,
                 response=obj.get('response', ''),
                 deferred_time=obj.get('deferred_time', 0),
@@ -731,15 +731,15 @@ class BlockDeferredUpsertMutation(relay.ClientIDMutation):
         else:
             block_deferred_type, block_deferred_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = BlockDeferred.objects.get(pk=block_deferred_id)
+            get_or_create_obj = BlockDeferred.objects.get(pk=block_deferred_id)
 
-            new_or_find_obj.block_id = block_id
-            new_or_find_obj.response = obj.get('response', '')
-            new_or_find_obj.deferred_time = obj.get('deferred_time', 0)
+            get_or_create_obj.block_id = block_id
+            get_or_create_obj.response = obj.get('response', '')
+            get_or_create_obj.deferred_time = obj.get('deferred_time', 0)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return BlockDeferredUpsertMutation(result=new_or_find_obj)
+        return BlockDeferredUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -757,10 +757,10 @@ class BlockDeferredDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return BlockDeferredDeleteMutation(result=new_or_find_obj)
+        return BlockDeferredDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -789,21 +789,21 @@ class BlockShortcutUpsertMutation(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, obj):
         block_type, block_id = from_global_id(obj.get('block_id'))
         if obj.get('id') is None:
-            new_or_find_obj = BlockShortcut.objects.create(
+            get_or_create_obj = BlockShortcut.objects.create(
                 block_id=block_id,
                 shortcut_options=obj.get('shortcut_options', ''),
             )
         else:
             block_shortcut_type, block_shortcut_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = BlockShortcut.objects.get(pk=block_shortcut_id)
+            get_or_create_obj = BlockShortcut.objects.get(pk=block_shortcut_id)
 
-            new_or_find_obj.block_id = block_id
-            new_or_find_obj.shortcut_options = obj.get('shortcut_options', '')
+            get_or_create_obj.block_id = block_id
+            get_or_create_obj.shortcut_options = obj.get('shortcut_options', '')
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return BlockShortcutUpsertMutation(result=new_or_find_obj)
+        return BlockShortcutUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -821,10 +821,10 @@ class BlockShortcutDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return BlockShortcutDeleteMutation(result=new_or_find_obj)
+        return BlockShortcutDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -858,7 +858,7 @@ class TriggerUpsertMutation(relay.ClientIDMutation):
         next_block_type, next_block_id = from_global_id(obj.get('next_block_id'))
 
         if obj.get('id') is None:
-            new_or_find_obj = Trigger.objects.create(
+            get_or_create_obj = Trigger.objects.create(
                 task_id=task_id,
                 next_block_id=next_block_id,
                 position_x=obj.get('position_x', 0),
@@ -867,16 +867,16 @@ class TriggerUpsertMutation(relay.ClientIDMutation):
         else:
             trigger_type, trigger_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = Trigger.objects.get(pk=trigger_id)
+            get_or_create_obj = Trigger.objects.get(pk=trigger_id)
 
-            new_or_find_obj.task_id = task_id
-            new_or_find_obj.next_block_id = next_block_id
-            new_or_find_obj.position_x = obj.get('position_x', 0)
-            new_or_find_obj.position_y = obj.get('position_y', 0)
+            get_or_create_obj.task_id = task_id
+            get_or_create_obj.next_block_id = next_block_id
+            get_or_create_obj.position_x = obj.get('position_x', 0)
+            get_or_create_obj.position_y = obj.get('position_y', 0)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return TriggerUpsertMutation(result=new_or_find_obj)
+        return TriggerUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -894,10 +894,10 @@ class TriggerDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return TriggerDeleteMutation(result=new_or_find_obj)
+        return TriggerDeleteMutation(result=get_or_create_obj)
     pass
 
 
@@ -928,7 +928,7 @@ class TriggerInfoUpsertMutation(relay.ClientIDMutation):
         trigger_type, trigger_id = from_global_id(obj.get('block_id'))
 
         if obj.get('id') is None:
-            new_or_find_obj = TriggerInfo.objects.create(
+            get_or_create_obj = TriggerInfo.objects.create(
                 trigger_id=trigger_id,
                 content=obj.get('content', ''),
                 trigger_type=obj.get('trigger_type', 0),
@@ -936,15 +936,15 @@ class TriggerInfoUpsertMutation(relay.ClientIDMutation):
         else:
             trigger_info_type, trigger_info_id = from_global_id(obj.get('id'))
 
-            new_or_find_obj = TriggerInfo.objects.get(pk=trigger_info_id)
+            get_or_create_obj = TriggerInfo.objects.get(pk=trigger_info_id)
 
-            new_or_find_obj.trigger_id = trigger_id
-            new_or_find_obj.content = obj.get('content', '')
-            new_or_find_obj.trigger_type = obj.get('trigger_type', 0)
+            get_or_create_obj.trigger_id = trigger_id
+            get_or_create_obj.content = obj.get('content', '')
+            get_or_create_obj.trigger_type = obj.get('trigger_type', 0)
 
-            new_or_find_obj.save()
+            get_or_create_obj.save()
 
-        return TriggerInfoUpsertMutation(result=new_or_find_obj)
+        return TriggerInfoUpsertMutation(result=get_or_create_obj)
 
     pass
 
@@ -962,8 +962,8 @@ class TriggerInfoDeleteMutation(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, obj):
         obj_type, obj_id = from_global_id(obj.get('id'))
-        new_or_find_obj = App.objects.get(pk=obj_id)
-        new_or_find_obj.delete()
+        get_or_create_obj = App.objects.get(pk=obj_id)
+        get_or_create_obj.delete()
 
-        return TriggerInfoDeleteMutation(result=new_or_find_obj)
+        return TriggerInfoDeleteMutation(result=get_or_create_obj)
     pass
