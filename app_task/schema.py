@@ -14,7 +14,9 @@ from app_task.mutations import \
     SlotUpsertMutation, \
     BlockUpsertMutation, \
     TriggerInfoUpsertMutation, \
-    TriggerUpsertMutation
+    TriggerUpsertMutation, RobotDeleteMutation, TaskDeleteMutation, BlockDeleteMutation, SlotDeleteMutation, \
+    EntityDeleteMutation, BlockResponseDeleteMutation, TriggerInfoDeleteMutation, TriggerDeleteMutation, \
+    BlockShortcutDeleteMutation, BlockDeferredDeleteMutation, BlockRelationDeleteMutation
 from app_task.types import \
     AppType, \
     BlockDeferredType, \
@@ -89,35 +91,46 @@ class Mutation(object):
 
     # 机器人
     upsert_robot = RobotUpsertMutation.Field()
+    delete_robot = RobotDeleteMutation.Field()
 
     # 任务/意图
     upsert_task = TaskUpsertMutation.Field()
+    delete_task = TaskDeleteMutation.Field()
 
     # 单元
     upsert_block = BlockUpsertMutation.Field()
+    delete_block = BlockDeleteMutation.Field()
 
     # 词槽
     upsert_slot = SlotUpsertMutation.Field()
+    delete_slot = SlotDeleteMutation.Field()
 
     # 实体
     upsert_entity = EntityUpsertMutation.Field()
+    delete_entity = EntityDeleteMutation.Field()
 
     # 单元响应处理
     upsert_block_response = BlockResponseUpsertMutation.Field()
+    delete_block_response = BlockResponseDeleteMutation.Field()
 
     # 单元跳转关系
     upsert_block_relation = BlockRelationUpsertMutation.Field()
+    delete_block_relation = BlockRelationDeleteMutation.Field()
 
     # 延期设置
     upsert_block_deferred = BlockDeferredUpsertMutation.Field()
+    delete_block_deferred = BlockDeferredDeleteMutation.Field()
 
     # 预置回复
     upsert_block_shortcut = BlockShortcutUpsertMutation.Field()
+    delete_block_shortcut = BlockShortcutDeleteMutation.Field()
 
     # 触发器
     upsert_trigger = TriggerUpsertMutation.Field()
+    delete_trigger = TriggerDeleteMutation.Field()
 
     # 触发器信息
     upsert_trigger_info = TriggerInfoUpsertMutation.Field()
+    delete_trigger_info = TriggerInfoDeleteMutation.Field()
 
     pass

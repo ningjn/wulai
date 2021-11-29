@@ -46,7 +46,7 @@ class AppInput(graphene.InputObjectType):
 
 class AppUpsertMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    应用（Upsert）
     """
 
     class Input:
@@ -82,7 +82,7 @@ class AppUpsertMutation(relay.ClientIDMutation):
 
 class AppDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    应用（Delete）
     """
 
     class Input:
@@ -127,7 +127,7 @@ class RobotInput(graphene.InputObjectType):
 
 class RobotUpsertMutation(relay.ClientIDMutation):
     """
-    机器人Mutation
+    机器人（Upsert）
     """
 
     class Input:
@@ -190,7 +190,7 @@ class RobotUpsertMutation(relay.ClientIDMutation):
 
 class RobotDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    机器人（Delete）
     """
 
     class Input:
@@ -229,7 +229,7 @@ class TaskInput(graphene.InputObjectType):
 
 class TaskUpsertMutation(relay.ClientIDMutation):
     """
-    任务/意图Mutation
+    任务/意图（Upsert）
     """
 
     class Input:
@@ -275,7 +275,7 @@ class TaskUpsertMutation(relay.ClientIDMutation):
 
 class TaskDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    任务/意图（Delete）
     """
 
     class Input:
@@ -325,7 +325,7 @@ class BlockInput(graphene.InputObjectType):
 
 class BlockUpsertMutation(relay.ClientIDMutation):
     """
-    单元Mutation
+    单元（Upsert）
     """
 
     class Input:
@@ -391,7 +391,7 @@ class BlockUpsertMutation(relay.ClientIDMutation):
 
 class BlockDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    单元（Delete）
     """
 
     class Input:
@@ -428,7 +428,7 @@ class SlotInput(graphene.InputObjectType):
 
 class SlotUpsertMutation(relay.ClientIDMutation):
     """
-    词槽Mutation
+    词槽（Upsert）
     """
 
     class Input:
@@ -469,7 +469,7 @@ class SlotUpsertMutation(relay.ClientIDMutation):
 
 class SlotDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    词槽（Delete）
     """
 
     class Input:
@@ -503,7 +503,7 @@ class EntityInput(graphene.InputObjectType):
 
 class EntityUpsertMutation(relay.ClientIDMutation):
     """
-    实体Mutation
+    实体（Upsert）
     """
 
     class Input:
@@ -539,7 +539,7 @@ class EntityUpsertMutation(relay.ClientIDMutation):
 
 class EntityDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    实体（Delete）
     """
 
     class Input:
@@ -571,7 +571,7 @@ class BlockResponseInput(graphene.InputObjectType):
 
 class BlockResponseUpsertMutation(relay.ClientIDMutation):
     """
-    单元响应处理Mutation
+    单元响应处理（Upsert）
     """
 
     class Input:
@@ -607,7 +607,7 @@ class BlockResponseUpsertMutation(relay.ClientIDMutation):
 
 class BlockResponseDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    单元响应处理（Delete）
     """
 
     class Input:
@@ -640,7 +640,7 @@ class BlockRelationInput(graphene.InputObjectType):
 
 class BlockRelationUpsertMutation(relay.ClientIDMutation):
     """
-    单元跳转关系Mutation
+    单元跳转关系（Upsert）
     """
 
     class Input:
@@ -679,7 +679,7 @@ class BlockRelationUpsertMutation(relay.ClientIDMutation):
 
 class BlockRelationDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    单元跳转关系（Delete）
     """
 
     class Input:
@@ -711,7 +711,7 @@ class BlockDeferredInput(graphene.InputObjectType):
 
 class BlockDeferredUpsertMutation(relay.ClientIDMutation):
     """
-    延期设置Mutation
+    延期设置（Upsert）
     """
 
     class Input:
@@ -746,7 +746,7 @@ class BlockDeferredUpsertMutation(relay.ClientIDMutation):
 
 class BlockDeferredDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    延期设置（Delete）
     """
 
     class Input:
@@ -777,7 +777,7 @@ class BlockShortcutInput(graphene.InputObjectType):
 
 class BlockShortcutUpsertMutation(relay.ClientIDMutation):
     """
-    预置回复Mutation
+    预置回复（Upsert）
     """
 
     class Input:
@@ -810,7 +810,7 @@ class BlockShortcutUpsertMutation(relay.ClientIDMutation):
 
 class BlockShortcutDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    预置回复（Delete）
     """
 
     class Input:
@@ -844,7 +844,7 @@ class TriggerInput(graphene.InputObjectType):
 
 class TriggerUpsertMutation(relay.ClientIDMutation):
     """
-    触发器Mutation
+    触发器（Upsert）
     """
 
     class Input:
@@ -883,7 +883,7 @@ class TriggerUpsertMutation(relay.ClientIDMutation):
 
 class TriggerDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    触发器（Delete）
     """
 
     class Input:
@@ -915,7 +915,7 @@ class TriggerInfoInput(graphene.InputObjectType):
 
 class TriggerInfoUpsertMutation(relay.ClientIDMutation):
     """
-    触发器信息Mutation
+    触发器信息（Upsert）
     """
 
     class Input:
@@ -951,7 +951,7 @@ class TriggerInfoUpsertMutation(relay.ClientIDMutation):
 
 class TriggerInfoDeleteMutation(relay.ClientIDMutation):
     """
-    应用Mutation
+    触发器信息（Delete）
     """
 
     class Input:
