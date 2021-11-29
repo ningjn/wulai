@@ -3,8 +3,32 @@ from django.utils import timezone
 from graphene import relay
 from graphql_relay import from_global_id
 
-from app_task.models import App, BlockDeferred, BlockRelation, BlockResponse, BlockShortcut, Robot, Task, Block, Slot, Entity, Trigger, TriggerInfo
-from app_task.types import AppType, BlockDeferredType, BlockRelationType, BlockResponseType, BlockShortcutType, RobotType, TaskType, BlockType, SlotType, EntityType, TriggerInfoType, TriggerType
+from app_task.models import \
+    App, \
+    BlockDeferred, \
+    BlockRelation, \
+    BlockResponse, \
+    BlockShortcut, \
+    Robot, \
+    Task, \
+    Block, \
+    Slot, \
+    Entity, \
+    Trigger, \
+    TriggerInfo
+from app_task.types import \
+    AppType, \
+    BlockDeferredType, \
+    BlockRelationType, \
+    BlockResponseType, \
+    BlockShortcutType, \
+    RobotType, \
+    TaskType, \
+    BlockType, \
+    SlotType, \
+    EntityType, \
+    TriggerInfoType, \
+    TriggerType
 
 
 class AppInput(graphene.InputObjectType):
@@ -41,7 +65,7 @@ class AppMutation(relay.ClientIDMutation):
                 app_key=obj.get('app_key', ''),
             )
         else:
-            app_type, app_id = from_global_id(obj.get('app_id'))
+            app_type, app_id = from_global_id(obj.get('id'))
             new_obj, flag = App.objects.get(pk=app_id)
             new_obj.app_name = obj.get('app_name', '')
             new_obj.app_logo = obj.get('app_logo', '')

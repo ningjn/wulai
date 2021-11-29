@@ -22,5 +22,92 @@ __isnull=True/False
 
 'notequal', 'notin'
 
+```
+
+# graphql
+
+## 应用
+
+### 查询
 
 ```
+------------------byId
+query {
+  app(id: "QXBwVHlwZTox") {
+    id,
+    pk,
+    appName,
+    appKey,
+    appLogo,
+    appHash,
+    appRemark
+  }
+}
+
+------------------all
+query {
+  allApps{
+    edges{
+      node{
+        id,
+        pk,
+        appName,
+        appKey,
+        appLogo,
+        appRemark,
+        appHash
+      }
+    }
+  }
+}
+```
+
+### 添加
+
+```
+mutation {
+  upsertApp(input: {obj: {
+    appName: "官网在线帮助DEMO",
+    appKey: "nwrNqZC11onYt8ABeayAiJQux0SQDGL5",
+    appLogo: "app",
+    appHash: "BDtMoPtCacduSyYBQOjcsffLIc4fcZTu",
+    appRemark: "",
+  }}){
+    result{
+      id,
+      pk,
+      appName,
+      appKey,
+      appLogo,
+      appHash,
+      appRemark,
+    }
+  }
+}
+```
+
+### 修改
+
+```
+mutation {
+  upsertApp(input: {obj: {
+    id: "QXBwVHlwZTox",
+    appName: "官网在线帮助DEMO1",
+    appKey: "nwrNqZC11onYt8ABeayAiJQux0SQDGL5",
+    appLogo: "app",
+    appHash: "BDtMoPtCacduSyYBQOjcsffLIc4fcZTu",
+    appRemark: "",
+  }}){
+    result{
+      id,
+      pk,
+      appName,
+      appKey,
+      appLogo,
+      appHash,
+      appRemark,
+    }
+  }
+}
+```
+
