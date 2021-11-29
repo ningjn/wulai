@@ -66,7 +66,7 @@ class AppMutation(relay.ClientIDMutation):
             )
         else:
             app_type, app_id = from_global_id(obj.get('id'))
-            new_obj, flag = App.objects.get(pk=app_id)
+            new_obj = App.objects.get(pk=app_id)
             new_obj.app_name = obj.get('app_name', '')
             new_obj.app_logo = obj.get('app_logo', '')
             new_obj.app_remark = obj.get('app_remark', '')
@@ -143,7 +143,7 @@ class RobotMutation(relay.ClientIDMutation):
             robot_type, robot_id = from_global_id(obj.get('id'))
             app_type, app_id = from_global_id(obj.get('app_id'))
 
-            new_obj, flag = Robot.objects.get(pk=robot_id)
+            new_obj = Robot.objects.get(pk=robot_id)
             new_obj.robot_name = obj.get('robot_name', '')
             new_obj.robot_logo = obj.get('robot_logo', '')
             new_obj.robot_detail = obj.get('robot_detail', '')
@@ -216,7 +216,7 @@ class TaskMutation(relay.ClientIDMutation):
             task_type, task_id = from_global_id(obj.get('id'))
             robot_type, robot_id = from_global_id(obj.get('robot_id'))
 
-            new_obj, flag = Task.objects.get(pk=task_id)
+            new_obj = Task.objects.get(pk=task_id)
             new_obj.robot_id = robot_id
             new_obj.version = obj.get('version', 0)
             new_obj.name = obj.get('name', '')
@@ -303,7 +303,7 @@ class BlockMutation(relay.ClientIDMutation):
             bound_slot_type, bound_slot_id = from_global_id(obj.get('bound_slot_id'))
             task_type, task_id = from_global_id(obj.get('task_id'))
 
-            new_obj, flag = Block.objects.get(pk=block_id)
+            new_obj = Block.objects.get(pk=block_id)
 
             new_obj.bound_slot_id = bound_slot_id
             new_obj.task_id = task_id
@@ -372,7 +372,7 @@ class SlotMutation(relay.ClientIDMutation):
             slot_type, slot_id = from_global_id(obj.get('id'))
             robot_type, robot_id = from_global_id(obj.get('robot_id'))
 
-            new_obj, flag = Slot.objects.get(pk=slot_id)
+            new_obj = Slot.objects.get(pk=slot_id)
 
             new_obj.robot_id = robot_id
             new_obj.name = obj.get('name', '')
@@ -423,7 +423,7 @@ class EntityMutation(relay.ClientIDMutation):
         else:
             entity_type, entity_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Entity.objects.get(pk=entity_id)
+            new_obj = Entity.objects.get(pk=entity_id)
 
             new_obj.entity_name = obj.get('entity_name', ''),
             new_obj.entity_desc = obj.get('entity_desc', ''),
@@ -472,7 +472,7 @@ class BlockResponseMutation(relay.ClientIDMutation):
         else:
             response_type, response_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = BlockResponse.objects.get(pk=response_id)
+            new_obj = BlockResponse.objects.get(pk=response_id)
 
             new_obj.block_id=block_id
             new_obj.response=obj.get('response', '')
@@ -523,7 +523,7 @@ class BlockRelationMutation(relay.ClientIDMutation):
         else:
             block_relation_type, block_relation_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = BlockRelation.objects.get(pk=block_relation_id)
+            new_obj = BlockRelation.objects.get(pk=block_relation_id)
 
             new_obj.from_block_id=from_block_id
             new_obj.to_block_id=to_block_id
@@ -571,7 +571,7 @@ class BlockDeferredMutation(relay.ClientIDMutation):
         else:
             block_deferred_type, block_deferred_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = BlockDeferred.objects.get(pk=block_deferred_id)
+            new_obj = BlockDeferred.objects.get(pk=block_deferred_id)
 
             new_obj.block_id=block_id
             new_obj.response=obj.get('response', '')
@@ -616,7 +616,7 @@ class BlockShortcutMutation(relay.ClientIDMutation):
         else:
             block_shortcut_type, block_shortcut_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = BlockShortcut.objects.get(pk=block_shortcut_id)
+            new_obj = BlockShortcut.objects.get(pk=block_shortcut_id)
 
             new_obj.block_id=block_id
             new_obj.shortcut_options=obj.get('shortcut_options', '')
@@ -667,7 +667,7 @@ class TriggerMutation(relay.ClientIDMutation):
         else:
             trigger_type, trigger_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = Trigger.objects.get(pk=trigger_id)
+            new_obj = Trigger.objects.get(pk=trigger_id)
 
             new_obj.task_id=task_id
             new_obj.next_block_id=next_block_id
@@ -716,7 +716,7 @@ class TriggerInfoMutation(relay.ClientIDMutation):
         else:
             trigger_info_type, trigger_info_id = from_global_id(obj.get('id'))
 
-            new_obj, flag = TriggerInfo.objects.get(pk=trigger_info_id)
+            new_obj = TriggerInfo.objects.get(pk=trigger_info_id)
 
             new_obj.trigger_id=trigger_id
             new_obj.content=obj.get('content', '')
