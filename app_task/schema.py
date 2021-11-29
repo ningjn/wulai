@@ -1,8 +1,33 @@
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 
-from app_task.mutations import AppMutation, BlockDeferredMutation, BlockRelationMutation, BlockResponseMutation, BlockShortcutMutation, RobotMutation, TaskMutation, EntityMutation, SlotMutation, BlockMutation, TriggerInfoMutation, TriggerMutation
-from app_task.types import AppType, BlockDeferredType, BlockRelationType, BlockResponseType, BlockShortcutType, RobotType, TaskType, BlockType, SlotType, EntityType, TriggerInfoType, TriggerType
+from app_task.mutations import \
+    AppUpsertMutation, \
+    AppDeleteMutation, \
+    BlockDeferredUpsertMutation, \
+    BlockRelationUpsertMutation, \
+    BlockResponseUpsertMutation, \
+    BlockShortcutUpsertMutation, \
+    RobotUpsertMutation, \
+    TaskUpsertMutation, \
+    EntityUpsertMutation, \
+    SlotUpsertMutation, \
+    BlockUpsertMutation, \
+    TriggerInfoUpsertMutation, \
+    TriggerUpsertMutation
+from app_task.types import \
+    AppType, \
+    BlockDeferredType, \
+    BlockRelationType, \
+    BlockResponseType, \
+    BlockShortcutType, \
+    RobotType, \
+    TaskType, \
+    BlockType, \
+    SlotType, \
+    EntityType, \
+    TriggerInfoType, \
+    TriggerType
 
 
 class Query(object):
@@ -59,39 +84,40 @@ class Query(object):
 
 class Mutation(object):
     # 应用
-    upsert_app = AppMutation.Field()
+    upsert_app = AppUpsertMutation.Field()
+    delete_app = AppDeleteMutation.Field()
 
     # 机器人
-    upsert_robot = RobotMutation.Field()
+    upsert_robot = RobotUpsertMutation.Field()
 
     # 任务/意图
-    upsert_task = TaskMutation.Field()
+    upsert_task = TaskUpsertMutation.Field()
 
     # 单元
-    upsert_block = BlockMutation.Field()
+    upsert_block = BlockUpsertMutation.Field()
 
     # 词槽
-    upsert_slot = SlotMutation.Field()
+    upsert_slot = SlotUpsertMutation.Field()
 
     # 实体
-    upsert_entity = EntityMutation.Field()
+    upsert_entity = EntityUpsertMutation.Field()
 
     # 单元响应处理
-    upsert_block_response = BlockResponseMutation.Field()
+    upsert_block_response = BlockResponseUpsertMutation.Field()
 
     # 单元跳转关系
-    upsert_block_relation = BlockRelationMutation.Field()
+    upsert_block_relation = BlockRelationUpsertMutation.Field()
 
     # 延期设置
-    upsert_block_deferred = BlockDeferredMutation.Field()
+    upsert_block_deferred = BlockDeferredUpsertMutation.Field()
 
     # 预置回复
-    upsert_block_shortcut = BlockShortcutMutation.Field()
+    upsert_block_shortcut = BlockShortcutUpsertMutation.Field()
 
     # 触发器
-    upsert_trigger = TriggerMutation.Field()
+    upsert_trigger = TriggerUpsertMutation.Field()
 
     # 触发器信息
-    upsert_trigger_info = TriggerInfoMutation.Field()
+    upsert_trigger_info = TriggerInfoUpsertMutation.Field()
 
     pass
