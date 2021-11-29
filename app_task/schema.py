@@ -5,18 +5,27 @@ from app_task.mutations import \
     AppUpsertMutation, \
     AppDeleteMutation, \
     BlockDeferredUpsertMutation, \
+    BlockDeferredDeleteMutation, \
     BlockRelationUpsertMutation, \
+    BlockRelationDeleteMutation, \
     BlockResponseUpsertMutation, \
+    BlockResponseDeleteMutation, \
     BlockShortcutUpsertMutation, \
+    BlockShortcutDeleteMutation, \
     RobotUpsertMutation, \
+    RobotDeleteMutation, \
     TaskUpsertMutation, \
+    TaskDeleteMutation, \
     EntityUpsertMutation, \
+    EntityDeleteMutation, \
     SlotUpsertMutation, \
+    SlotDeleteMutation, \
     BlockUpsertMutation, \
+    BlockDeleteMutation, \
     TriggerInfoUpsertMutation, \
-    TriggerUpsertMutation, RobotDeleteMutation, TaskDeleteMutation, BlockDeleteMutation, SlotDeleteMutation, \
-    EntityDeleteMutation, BlockResponseDeleteMutation, TriggerInfoDeleteMutation, TriggerDeleteMutation, \
-    BlockShortcutDeleteMutation, BlockDeferredDeleteMutation, BlockRelationDeleteMutation
+    TriggerInfoDeleteMutation, \
+    TriggerUpsertMutation, \
+    TriggerDeleteMutation
 from app_task.types import \
     AppType, \
     BlockDeferredType, \
